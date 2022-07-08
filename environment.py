@@ -16,7 +16,7 @@ class Env:
     def setup(self, arr):
         self.arr = np.asarray(-arr)
         self.n = self.arr.shape[0]
-        self.selected = [0 for x in range(self.arr.shape[0])]
+        self.selected = [0 for x in range(self.n*2)]
         self.now = 0
         self.finished = 0
         self.selected[0] = 1
@@ -34,9 +34,13 @@ class Env:
             a = np.where(self.selected)[0][0]
             self.finished = 1
             return self.arr[self.now][i] + self.arr[self.now][a] + self.arr[a][0]
+        self.selected[self.now + self.n] = 0
         self.now = i
+        self.selected[self.now + self.n] = 1
         return self.arr[self.now][i]
 
+    def state(self):
+        return self.selected
 
 def load_arr(i):
     return np.load('./dataset/{}.npy'.format(l[i]))

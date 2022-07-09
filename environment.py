@@ -4,17 +4,17 @@ import numpy as np
 l = ['a280', 'ali535', 'att48', 'att532', 'bayg29', 'bays29', 'berlin52', 'bier127', 'brazil58']
 inf = -1e9
 
+
 class Env:
     def __init__(self, arr):
         self.selected = None
-        self.arr = None
+        self.arr = np.asarray(-arr)
         self.now = 0
         self.finished = 0
         self.n = 0
-        self.setup(arr)
+        self.setup()
 
-    def setup(self, arr):
-        self.arr = np.asarray(-arr)
+    def setup(self):
         self.n = self.arr.shape[0]
         self.selected = [0 for x in range(self.n*2)]
         self.now = 0
@@ -22,7 +22,7 @@ class Env:
         self.selected[0] = 1
 
     def reset(self):
-        self.setup(arr)
+        self.setup()
 
     def sel(self, i):
         if self.selected[i]:

@@ -2,13 +2,13 @@ import numpy as np
 
 
 l = ['a280', 'ali535', 'att48', 'att532', 'bayg29', 'bays29', 'berlin52', 'bier127', 'brazil58']
-inf = -1e9
+inf = 1e7
 
 
 class Env:
     def __init__(self, arr):
         self.selected = None
-        self.arr = np.asarray(-arr)
+        self.arr = np.asarray(arr)
         self.now = 0
         self.finished = 0
         self.n = 0
@@ -30,14 +30,15 @@ class Env:
             return inf
         self.selected[i] = 1
 
-        if np.sum(self.selected) == 1:
+        if np.sum(self.selected) == self.n + 1:
             a = np.where(self.selected)[0][0]
             self.finished = 1
             return self.arr[self.now][i] + self.arr[self.now][a] + self.arr[a][0]
+        v = self.arr[self.now][i]
         self.selected[self.now + self.n] = 0
         self.now = i
         self.selected[self.now + self.n] = 1
-        return self.arr[self.now][i]
+        return v
 
     def state(self):
         return self.selected
@@ -53,4 +54,4 @@ def create_env(i):
 if __name__ == "__main__":
     arr = load_arr(0)
     env = Env(arr)
-    print(env.arr)
+    print(env.sel(3))

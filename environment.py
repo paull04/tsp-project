@@ -2,7 +2,7 @@ import numpy as np
 
 
 l = ['a280', 'ali535', 'att48', 'att532', 'bayg29', 'bays29', 'berlin52', 'bier127', 'brazil58']
-inf = 1e7
+inf = 1e18
 
 
 class Env:
@@ -52,6 +52,6 @@ def create_env(i):
 
 
 if __name__ == "__main__":
-    arr = load_arr(0)
+    arr = load_arr(5)
     env = Env(arr)
-    print(env.sel(3))
+    print(env.n)

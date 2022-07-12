@@ -10,7 +10,7 @@ res = []
 
 
 def run(env: Env):
-    episode = 10000
+    episode = 5000
     gamma = 0.9
     epsilon = 1
     n = env.n
@@ -23,7 +23,7 @@ def run(env: Env):
         with tf.GradientTape() as t:
             t.watch(params)
             q = tf.reduce_sum(model(s1) * a1, axis=1)
-            Qt = tf.reduce_min(r + gamma * np.min(model(s2)))
+            Qt = r + gamma * tf.reduce_min(model(s2), axis=1)
             loss = loss_f(q, Qt)
         grad = t.gradient(loss, params)
         opt.apply_gradients(zip(grad, params))
@@ -32,7 +32,6 @@ def run(env: Env):
     for e in range(1, episode+1):
         score = 0
         cnt = 0
-        episode = []
         a1s = []
         s1s = []
         s2s = []
@@ -61,9 +60,10 @@ def run(env: Env):
         r = np.array(rs)
         a1 = np.array(a1s)
         train(a1, s1, s2, r)
-        print(score)
-        epsilon *= 0.99
+        #print(score)
+        epsilon *= 0.991
         env.reset()
+        print(score)
 
 
 if __name__ == '__main__':

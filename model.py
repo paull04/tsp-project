@@ -24,7 +24,7 @@ class Model(kModel):
         self.n2 = Dense(128, activation='elu')
         self.v = Dense(1)
         self.p = Dense(n, activation="softmax")
-        self.opt = Adam(learning_rate=0.0001)
+        self.opt = Adam(learning_rate=0.00001)
         self.loss = MeanSquaredError()
         self.gamma = 0.6
 

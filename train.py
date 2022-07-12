@@ -43,7 +43,8 @@ def run(env: Env):
         #print(score)
         epsilon *= 0.991
         env.reset()
-        print(score)
+        if e % 100 == 0:
+            print(f"ep {e}: {score}")
 
 
 if __name__ == '__main__':

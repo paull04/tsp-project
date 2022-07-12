@@ -39,7 +39,7 @@ def run(env: Env):
         while not env.finished:
             s1 = env.state()
             tmp = np.array([x*inf for x in s1[:n]])
-            if epsilon >= np.random.rand():
+            if epsilon >= 1:
                 a1 = np.argmin(np.random.rand(n)+tmp)
 
             else:

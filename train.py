@@ -7,7 +7,7 @@ res = []
 
 
 def run(env: Env):
-    episode = 5000
+    episode = 1000
     gamma = 0.9
     epsilon = 1
     n = env.n
@@ -26,9 +26,9 @@ def run(env: Env):
                 a1 = np.argmin(np.random.rand(n)+tmp)
 
             else:
-                tmp = np.array([not x for x in s1[:n]])
+                tmp = np.array([(not x) * inf for x in s1[:n]])
                 p = model(np.array([s1, ]))[1][0]
-                a1 = np.argmax(p*tmp)
+                a1 = np.argmax(p + tmp)
 
             r = env.sel(a1)
             s2 = env.state()

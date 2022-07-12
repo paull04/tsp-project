@@ -4,7 +4,7 @@ import numpy as np
 import tensorflow as tf
 from tensorflow.keras.models import Sequential, Model as kModel
 from tensorflow.keras.layers import Dense, InputLayer, ReLU
-from tensorflow.keras.losses import Huber
+from tensorflow.keras.losses import MeanSquaredError
 from tensorflow.keras.optimizers import Adam
 
 
@@ -24,8 +24,8 @@ class Model(kModel):
         self.n2 = Dense(128, activation='elu')
         self.v = Dense(1)
         self.p = Dense(n, activation="softmax")
-        self.opt = Adam()
-        self.loss = Huber(reduction=tf.keras.losses.Reduction.SUM)
+        self.opt = Adam(learning_rate=0.0001)
+        self.loss = MeanSquaredError()
         self.gamma = 0.6
 
     def __call__(self, x):
@@ -43,8 +43,7 @@ class Model(kModel):
             tar = r + self.gamma * v2
             loss1 = self.loss(tar, v1)
             loss2 = -tf.reduce_mean(tf.math.log(p), axis=1)*(tar - v1)
-            loss = -(loss1 + loss2)
-
+            loss = (loss1 + loss2)
         grad = t.gradient(loss, params)
         self.opt.apply_gradients(zip(grad, params))
 
